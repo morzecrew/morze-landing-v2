@@ -36,9 +36,9 @@ export default function Contact() {
               и&nbsp;предложим следующий шаг.
             </p>
             <div className="contact__benefits">
-              <p>&rarr; Бесплатная первичная консультация</p>
-              <p>&rarr; Аудит процессов и&nbsp;подбор решения</p>
-              <p>&rarr; Демонстрация на&nbsp;ваших задачах</p>
+              <p><span className="contact__benefit-arrow contact__benefit-arrow--purple">&rarr;</span> Бесплатная первичная консультация</p>
+              <p><span className="contact__benefit-arrow contact__benefit-arrow--blue">&rarr;</span> Аудит процессов и&nbsp;подбор решения</p>
+              <p><span className="contact__benefit-arrow contact__benefit-arrow--teal">&rarr;</span> Демонстрация на&nbsp;ваших задачах</p>
             </div>
           </Reveal>
 

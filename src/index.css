@@ -22,6 +22,25 @@
   --accent-hover: #b48df7;
   --accent-dim: rgba(160, 115, 244, 0.10);
   --accent-glow: rgba(160, 115, 244, 0.20);
+
+  --teal: #4ecdc4;
+  --teal-hover: #6ed7d0;
+  --teal-dim: rgba(78, 205, 196, 0.12);
+  --teal-glow: rgba(78, 205, 196, 0.20);
+
+  --blue: #7b8cf8;
+  --blue-hover: #8e9df9;
+  --blue-dim: rgba(123, 140, 248, 0.12);
+  --blue-glow: rgba(123, 140, 248, 0.20);
+
+  --amber: #e8a654;
+  --amber-hover: #edb76e;
+  --amber-dim: rgba(232, 166, 84, 0.12);
+  --amber-glow: rgba(232, 166, 84, 0.20);
+
+  --coral: #f47373;
+  --coral-dim: rgba(244, 115, 115, 0.12);
+
   --text: #eeeef2;
   --text-secondary: #9898ae;
   --text-muted: #5a5a72;
@@ -92,6 +111,13 @@ h3 {
 
 .accent {
   color: var(--accent);
+}
+
+.accent--gradient {
+  background: linear-gradient(135deg, var(--accent), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .label {
@@ -322,10 +348,26 @@ h3 {
   z-index: 0;
 }
 
-.hero__inner {
+.hero__glow--teal {
+  top: -10%;
+  left: 70%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--teal-glow) 0%, transparent 65%);
+  opacity: 0.5;
+}
+
+.hero__grid {
   position: relative;
   z-index: 1;
-  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+}
+
+.hero__inner {
+  max-width: 640px;
 }
 
 .hero__title {
@@ -345,6 +387,69 @@ h3 {
   gap: 16px;
   margin-top: 40px;
   flex-wrap: wrap;
+}
+
+/* --- Morse code decoration --- */
+.hero__morse {
+  position: relative;
+  width: 100%;
+  align-self: stretch;
+  min-height: 400px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  mask-image: radial-gradient(ellipse 85% 80% at 55% 50%, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 80% at 55% 50%, black 30%, transparent 70%);
+}
+
+.hero__morse-line {
+  position: absolute;
+  top: var(--y);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--accent);
+  opacity: 0.28;
+  animation: morseDrift var(--speed) var(--delay) linear infinite;
+  will-change: transform;
+}
+
+.hero__morse-line--teal {
+  color: var(--teal);
+  opacity: 0.2;
+}
+
+.m-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.m-dash {
+  display: block;
+  width: 28px;
+  height: 8px;
+  background: currentColor;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.m-sp {
+  display: block;
+  width: 8px;
+  flex-shrink: 0;
+}
+
+@keyframes morseDrift {
+  from {
+    transform: rotate(-45deg) translateX(300px);
+  }
+  to {
+    transform: rotate(-45deg) translateX(-700px);
+  }
 }
 
 /* ===================================================================
@@ -399,6 +504,14 @@ h3 {
   line-height: 1.5;
 }
 
+.stat:nth-child(2) .stat__number { color: var(--blue); }
+.stat:nth-child(3) .stat__number { color: var(--teal); }
+.stat:nth-child(4) .stat__number { color: var(--amber); }
+
+.stat:nth-child(2):hover { border-color: rgba(123, 140, 248, 0.3); }
+.stat:nth-child(3):hover { border-color: rgba(78, 205, 196, 0.3); }
+.stat:nth-child(4):hover { border-color: rgba(232, 166, 84, 0.3); }
+
 /* ===================================================================
    3. ПРОБЛЕМЫ
    =================================================================== */
@@ -426,12 +539,20 @@ h3 {
   font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--amber);
   margin-bottom: 16px;
   padding: 4px 10px;
-  background: var(--accent-dim);
+  background: var(--amber-dim);
   border-radius: 4px;
   letter-spacing: 0.05em;
+}
+
+#problems .label {
+  color: var(--amber);
+}
+
+.problem-card:hover {
+  border-color: rgba(232, 166, 84, 0.3);
 }
 
 .problem-card__title {
@@ -478,17 +599,26 @@ h3 {
 }
 
 .dir-card:hover {
-  border-color: var(--stroke-hover);
+  border-color: rgba(160, 115, 244, 0.3);
   transform: translateY(-4px);
-  box-shadow: 0 16px 48px rgba(160, 115, 244, 0.08);
+  box-shadow: 0 16px 48px rgba(160, 115, 244, 0.10);
+}
+
+.dir-card--erp:hover {
+  border-color: rgba(123, 140, 248, 0.3);
+  box-shadow: 0 16px 48px rgba(123, 140, 248, 0.10);
 }
 
 .dir-card:hover::before {
   opacity: 1;
 }
 
+.dir-card--ai::before {
+  background: linear-gradient(90deg, var(--accent), var(--teal), transparent);
+}
+
 .dir-card--erp::before {
-  background: linear-gradient(90deg, #7b8cf8, transparent);
+  background: linear-gradient(90deg, var(--blue), var(--accent), transparent);
 }
 
 .dir-card__badge {
@@ -508,8 +638,8 @@ h3 {
 }
 
 .dir-card--erp .dir-card__badge {
-  background: rgba(123, 140, 248, 0.12);
-  color: #7b8cf8;
+  background: var(--blue-dim);
+  color: var(--blue);
 }
 
 .dir-card__title {
@@ -557,7 +687,7 @@ h3 {
 }
 
 .dir-card--erp .dir-card__list li::before {
-  background: #7b8cf8;
+  background: var(--blue);
 }
 
 .dir-card__case {
@@ -587,7 +717,7 @@ h3 {
 }
 
 .dir-card--erp .dir-card__case-label {
-  color: #7b8cf8;
+  color: var(--blue);
 }
 
 .dir-card__case-title {
@@ -615,7 +745,7 @@ h3 {
 }
 
 .dir-card--erp .dir-card__case-link {
-  color: #7b8cf8;
+  color: var(--blue);
 }
 
 .dir-card__case:hover .dir-card__case-link {
@@ -686,7 +816,11 @@ h3 {
   top: 56px;
   bottom: -8px;
   width: 1px;
-  background: var(--stroke);
+  background: linear-gradient(180deg, var(--accent) 0%, var(--stroke) 100%);
+}
+
+.process-step:nth-child(2) .process-step__marker::after {
+  background: linear-gradient(180deg, var(--blue) 0%, var(--stroke) 100%);
 }
 
 .process-step:last-child .process-step__marker::after {
@@ -712,6 +846,32 @@ h3 {
   background: var(--accent-dim);
   padding: 3px 10px;
   border-radius: 4px;
+}
+
+#process .label {
+  color: var(--blue);
+}
+
+.process-step:nth-child(2) .process-step__num {
+  background: var(--blue-dim);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.process-step:nth-child(3) .process-step__num {
+  background: var(--teal-dim);
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.process-step:nth-child(2) .process-step__duration {
+  color: var(--blue);
+  background: var(--blue-dim);
+}
+
+.process-step:nth-child(3) .process-step__duration {
+  color: var(--teal);
+  background: var(--teal-dim);
 }
 
 .process-step__list {
@@ -767,12 +927,29 @@ h3 {
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: var(--accent-dim);
-  color: var(--accent);
+  background: var(--teal-dim);
+  color: var(--teal);
   font-size: 1rem;
   font-weight: 700;
   border-radius: 50%;
   margin-bottom: 16px;
+}
+
+#results .label {
+  color: var(--teal);
+}
+
+.result-card:hover {
+  border-color: rgba(78, 205, 196, 0.3);
+}
+
+.result-card:nth-child(even) .result-card__icon {
+  background: var(--blue-dim);
+  color: var(--blue);
+}
+
+.result-card:nth-child(even):hover {
+  border-color: rgba(123, 140, 248, 0.3);
 }
 
 .result-card h3 {
@@ -838,13 +1015,13 @@ h3 {
 }
 
 .case-card__badge--erp {
-  background: rgba(123, 140, 248, 0.12);
-  color: #7b8cf8;
+  background: var(--blue-dim);
+  color: var(--blue);
 }
 
 .case-card__badge--crm {
-  background: rgba(80, 200, 160, 0.12);
-  color: #50c8a0;
+  background: var(--teal-dim);
+  color: var(--teal);
 }
 
 .case-card__year {
@@ -904,6 +1081,18 @@ h3 {
   line-height: 1.4;
 }
 
+.case-card:nth-child(2) .case-card__metric-value {
+  color: var(--blue);
+}
+
+.case-card:nth-child(3) .case-card__metric-value {
+  color: var(--teal);
+}
+
+.case-card:nth-child(1):hover { border-color: rgba(160, 115, 244, 0.3); }
+.case-card:nth-child(2):hover { border-color: rgba(123, 140, 248, 0.3); }
+.case-card:nth-child(3):hover { border-color: rgba(78, 205, 196, 0.3); }
+
 .case-card__metric--soon {
   display: flex;
   align-items: center;
@@ -951,6 +1140,12 @@ h3 {
   border-radius: 50%;
   margin-top: 10px;
 }
+
+.why-item:nth-child(2) .why-item__marker { background: var(--blue); }
+.why-item:nth-child(3) .why-item__marker { background: var(--teal); }
+.why-item:nth-child(4) .why-item__marker { background: var(--amber); }
+.why-item:nth-child(5) .why-item__marker { background: var(--blue); }
+.why-item:nth-child(6) .why-item__marker { background: var(--teal); }
 
 .why-item h3 {
   margin-bottom: 4px;
@@ -1018,13 +1213,29 @@ h3 {
   text-align: left;
 }
 
+#founders .label {
+  color: var(--blue);
+}
+
+.founder-card:nth-child(1):hover { border-color: rgba(160, 115, 244, 0.4); }
+.founder-card:nth-child(2):hover { border-color: rgba(123, 140, 248, 0.4); }
+.founder-card:nth-child(3):hover { border-color: rgba(78, 205, 196, 0.4); }
+
+.founder-card:nth-child(1) .founder-card__photo { border-color: rgba(160, 115, 244, 0.3); }
+.founder-card:nth-child(2) .founder-card__photo { border-color: rgba(123, 140, 248, 0.3); }
+.founder-card:nth-child(3) .founder-card__photo { border-color: rgba(78, 205, 196, 0.3); }
+
+.founder-card:nth-child(2) .founder-card__role { color: var(--blue); }
+.founder-card:nth-child(3) .founder-card__role { color: var(--teal); }
+
 /* ===================================================================
    9–10. ФОРМА ОБРАТНОЙ СВЯЗИ
    =================================================================== */
 .section--cta {
   padding: var(--section-py) 0;
   background:
-    radial-gradient(ellipse at 30% 50%, rgba(160, 115, 244, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 25% 40%, rgba(160, 115, 244, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 60%, rgba(78, 205, 196, 0.04) 0%, transparent 55%),
     var(--bg);
 }
 
@@ -1046,6 +1257,15 @@ h3 {
   font-size: 1rem;
   color: var(--text-secondary);
 }
+
+.contact__benefit-arrow {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.contact__benefit-arrow--purple { color: var(--accent); }
+.contact__benefit-arrow--blue { color: var(--blue); }
+.contact__benefit-arrow--teal { color: var(--teal); }
 
 .contact-form {
   display: flex;
@@ -1149,7 +1369,8 @@ h3 {
    ПОДВАЛ
    =================================================================== */
 .footer {
-  border-top: 1px solid var(--stroke);
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(90deg, var(--accent), var(--blue), var(--teal), transparent) 1;
   padding: 40px 0;
 }
 
@@ -1260,6 +1481,30 @@ h3 {
   .contact__grid {
     grid-template-columns: 1fr;
     gap: 48px;
+  }
+
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .hero__inner {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .hero__subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero__actions {
+    justify-content: center;
+  }
+
+  .hero__morse {
+    display: none;
   }
 }
 
