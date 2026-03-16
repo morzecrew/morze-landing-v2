@@ -8,7 +8,7 @@ export default function Hero({ onNavigate }) {
       <div className="hero__glow" />
       <div className="hero__morse-container" aria-hidden>
           <MorseStrip
-              randomFlash={true}
+              randomFlash={false}
               randomFlashIntervalMs={2400}
               randomFlashDurationMs={600}
           />
