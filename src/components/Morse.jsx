@@ -146,9 +146,9 @@ export function MorseColumn({ pattern, direction, duration, delay, colIndex, fla
 
 const COLUMN_CONFIG = [
     { pattern: MORSE_ROWS[0], direction: 'up', duration: 115, delay: 0 },
-    { pattern: MORSE_ROWS[1], direction: 'down', duration: 152, delay: 0.3 },
-    { pattern: MORSE_ROWS[2], direction: 'up', duration: 144, delay: 0.5 },
-    { pattern: MORSE_ROWS[3], direction: 'down', duration: 160, delay: 0.1 },
+    { pattern: MORSE_ROWS[1], direction: 'down', duration: 62, delay: 0.3 },
+    { pattern: MORSE_ROWS[2], direction: 'up', duration: 134, delay: 0.5 },
+    { pattern: MORSE_ROWS[3], direction: 'down', duration: 120, delay: 0.1 },
 ];
 
 const ROW_CONFIG = [
