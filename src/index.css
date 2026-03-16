@@ -322,10 +322,211 @@ h3 {
   z-index: 0;
 }
 
+/* Контейнер для точек и линий — во всю ширину Hero, pointer-events: none */
+.hero__morse-container {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-width: var(--max-w);
+  inset: 0;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Тень на концах: символы выходят из тени и заходят в неё */
+.hero__morse-container::before,
+.hero__morse-container::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero__morse-container::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+}
+
+.hero__morse-container::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+}
+
+.morse-strip {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 44px;
+}
+
+/* Вертикальная полоса: колонки без rotate */
+.morse-strip--vertical {
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 44px;
+}
+
+.morse-strip--horizontal {
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 44px;
+}
+
+.morse-strip__col {
+  width: 74px;
+  height: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.morse-strip__col-track {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  flex-shrink: 0;
+  will-change: transform;
+}
+
+.morse-strip__col-gap {
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.morse-strip__col-track--up {
+  animation: morse-scroll-up linear infinite;
+}
+
+.morse-strip__col-track--down {
+  animation: morse-scroll-down linear infinite;
+}
+
+.morse-strip__col-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+@keyframes morse-scroll-up {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes morse-scroll-down {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
+/* В вертикальной полосе тире — вертикальное (74×184) */
+.morse-strip--vertical .morse-strip__dash {
+  width: 74px;
+  height: 184px;
+}
+
 .hero__inner {
   position: relative;
-  z-index: 1;
-  max-width: 800px;
+  width: 100%;
+}
+
+.hero__text {
+  min-width: 0;
+  max-width: 560px;
+}
+
+.morse-strip__row {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* Дорожка шире окна — два полных копии для бесшовного цикла */
+.morse-strip__row-track {
+  display: flex;
+  width: max-content;
+  flex-shrink: 0;
+  will-change: transform;
+}
+
+.morse-strip__row-track--left {
+  animation: morse-scroll-left linear infinite;
+}
+
+.morse-strip__row-track--right {
+  animation: morse-scroll-right linear infinite;
+}
+
+/* Одна копия контента — ровно 50% дорожки для идеального цикла */
+.morse-strip__row-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+/* Влево: контент уходит влево, новый появляется справа (за пределами окна) */
+@keyframes morse-scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Вправо: контент уходит вправо, новый появляется слева (за пределами окна) */
+@keyframes morse-scroll-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .morse-strip__row-track--left,
+  .morse-strip__row-track--right,
+  .morse-strip__col-track--up,
+  .morse-strip__col-track--down {
+    animation: none;
+  }
+}
+
+.morse-strip__dot {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: var(--text);
+  opacity: 0.03;
+  flex-shrink: 0;
+  display: block;
+  pointer-events: auto;
+  transition: background-color 0.5s ease, opacity 0.5s ease;
+}
+
+.morse-strip__dash {
+  width: 184px;
+  height: 74px;
+  border-radius: 9999px;
+  background: var(--text);
+  opacity: 0.03;
+  flex-shrink: 0;
+  display: block;
+  pointer-events: auto;
+  transition: background-color 0.5s ease, opacity 0.5s ease;
+}
+
+.morse-strip__gap {
+  width: 12px;
+  flex-shrink: 0;
 }
 
 .hero__title {
@@ -336,8 +537,8 @@ h3 {
 .hero__subtitle {
   font-size: 1.25rem;
   color: var(--text-secondary);
-  line-height: 1.7;
-  max-width: 640px;
+  line-height: 1.85;
+  max-width: none;
 }
 
 .hero__actions {
@@ -1024,8 +1225,8 @@ h3 {
 .section--cta {
   padding: var(--section-py) 0;
   background:
-    radial-gradient(ellipse at 30% 50%, rgba(160, 115, 244, 0.06) 0%, transparent 60%),
-    var(--bg);
+          radial-gradient(ellipse at 30% 50%, rgba(160, 115, 244, 0.06) 0%, transparent 60%),
+          var(--bg);
 }
 
 .contact__grid {
@@ -1326,6 +1527,10 @@ h3 {
 
   .hero__actions .btn {
     width: 100%;
+  }
+
+  .hero__morse-wrap {
+    display: none;
   }
 
   .about__stats {
@@ -1683,14 +1888,14 @@ h3 {
   padding: 72px 0;
   text-align: center;
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(160, 115, 244, 0.06) 0%, transparent 60%),
-    var(--bg);
+          radial-gradient(ellipse at 50% 50%, rgba(160, 115, 244, 0.06) 0%, transparent 60%),
+          var(--bg);
 }
 
 .case-cta--erp {
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(123, 140, 248, 0.06) 0%, transparent 60%),
-    var(--bg);
+          radial-gradient(ellipse at 50% 50%, rgba(123, 140, 248, 0.06) 0%, transparent 60%),
+          var(--bg);
 }
 
 .case-cta h2 {
